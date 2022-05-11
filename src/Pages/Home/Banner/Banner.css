@@ -1,0 +1,7 @@
+.banner{
+    background-image: url(../../../assets//images/bg.png);
+    background-position: center;
+    background-size: cover;
+    /* filter: contrast(0.8); */
+
+}
