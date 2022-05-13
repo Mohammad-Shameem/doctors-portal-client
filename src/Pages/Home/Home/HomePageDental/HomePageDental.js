@@ -5,9 +5,9 @@ import './HomPageAppointment.css'
 
 const HomePageDental = () => {
     return (
-       <section  className='flex appointment justify-center items-center mt-28 h-[533] px-0'>  {/* ekhane jevabe h-[533] lekha hoiche sevabe tailwind e dynamic vab eclass lekha jay. */}
+       <section  className='flex appointment justify-center items-center mt-36  h-[533] '>  {/* ekhane jevabe h-[533] lekha hoiche sevabe tailwind e dynamic vab eclass lekha jay. */}
            <div className='flex-1 hidden lg:block md:block'>
-            <img src={doctor} className='mt-[-130px] '/>
+            <img src={doctor} className='mt-[-120px] '/>
            </div>
            <div className='flex-1 ml-12 mr-[130px] '>
                <h1 className= ' text-xl font-bold text-secondary mb-5'>Appointment</h1>

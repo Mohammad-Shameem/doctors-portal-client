@@ -8,7 +8,7 @@ const Banner = () => {
     return (
         <div className="hero min-h-screen banner">
         <div className="hero-content flex-col lg:flex-row-reverse">
-          <img style={{width:"594px",height:"355px"}} src={chair}  />
+          <img  src={chair} className="max-w-sm rounded-lg shadow-2xl" alt='' />
           <div>
             <h3 className="text-5xl font-bold">Your New Smile Start  </h3>
            <h3 className='text-5xl font-bold mt-3'> Here</h3>
