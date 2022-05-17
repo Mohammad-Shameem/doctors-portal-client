@@ -1,18 +1,47 @@
 import { format } from "date-fns";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
+import auth from "../../../../firebase.init";
 
-const BookingModal = ({ treatment, date, setTreatment }) => {
+const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
+  const [user] = useAuthState(auth);
   // console.log(treatment.name)
   const { name, slots, _id } = treatment;
   const handleBooking = (event) => {
     event.preventDefault();
-    const name = event.target.name.value;
     const number = event.target.number.value;
-    const email = event.target.email.value;
     const slot = event.target.slot.value;
-    console.log(name, number, email, slot, _id, date, treatment.name);
-    //to close the modal
-    setTreatment(null);
+    const formattedDate = format(date, "PP");
+    const booking = {
+      treatmentName: treatment.name,
+      treatmentId: _id,
+      date: formattedDate,
+      slot: slot,
+      patientEmail: user.email,
+      patientName: user.displayName,
+      phone: number,
+    };
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(`Appointment is set,${formattedDate} at ${slot}`);
+        } else {
+          toast.error(
+            `Already booked this Appointment on,${data.booking?.date} at ${data.booking?.slot}`
+          );
+        }
+        refetch();
+        //to close the modal
+        setTreatment(null);
+      });
   };
   return (
     <div>
@@ -24,7 +53,7 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <label
-            for="booking-modal"
+            htmlFor="booking-modal"
             className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
@@ -46,29 +75,29 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
               name="slot"
               className="select select-success w-full max-w-xs text-sm font-bold  select-bordered"
             >
-              {slots.map((slot) => (
-                <option>{slot}</option>
+              {slots.map((slot, index) => (
+                <option key={index}>{slot}</option>
               ))}
+              {/* map 3 ta parameter dey ekta holo element mane map kore jeta pai set arekta holo jeta pari tar index ebrong seserta holo jei array er upor amra map kori oi array tai. */}
             </select>
             <input
               name="name"
               type="text"
-              placeholder="Full Name"
+              value={user?.displayName || ""}
+              disabled
               className="input input-bordered input-success w-full max-w-xs"
-              required
+            />
+            <input
+              name="email"
+              type="email"
+              value={user?.email || ""}
+              disabled
+              className="input input-bordered input-success w-full max-w-xs"
             />
             <input
               name="number"
               type="number"
               placeholder="Type Your Number"
-              className="input input-bordered input-success w-full max-w-xs"
-              required
-            />
-            <input
-              name="email"
-              autoComplete="off"
-              type="Email"
-              placeholder="Type your Email"
               className="input input-bordered input-success w-full max-w-xs"
               required
             />
