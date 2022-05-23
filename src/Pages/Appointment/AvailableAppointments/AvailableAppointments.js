@@ -10,7 +10,7 @@ const AvailableAppointments = ({ date, setDate }) => {
   // const [services, setServices] = useState([]);
   const formattedDate = format(date, "PP");
   /*   useEffect(() => {
-    fetch(`http://localhost:5000/available?date=${formattedDate}`)
+    fetch(`https://secret-island-49254.herokuapp.com/available?date=${formattedDate}`)
       .then((res) => res.json())
       .then((data) => setServices(data));
   }, [formattedDate]); */
@@ -21,9 +21,9 @@ const AvailableAppointments = ({ date, setDate }) => {
     data: services, //ekhane amra services likhe map korchi tai datate   services add kore dichi tachara amra services remove kore data thekeo map korte partam.
     refetch,
   } = useQuery(["available", formattedDate], () =>
-    fetch(`http://localhost:5000/available?date=${formattedDate}`).then((res) =>
-      res.json()
-    )
+    fetch(
+      `https://secret-island-49254.herokuapp.com/available?date=${formattedDate}`
+    ).then((res) => res.json())
   );
   if (isLoading) {
     //react query use korle amader obosshoi isLoading use korte hob nahole amra datagulo pabona.

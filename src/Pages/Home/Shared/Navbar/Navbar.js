@@ -23,7 +23,13 @@ const Navbar = () => {
         <li>
           <button
             className="btn btn-ghost"
-            onClick={() => signOut(auth, navigate("/login"))}
+            onClick={() =>
+              signOut(
+                auth,
+                navigate("/login"),
+                localStorage.removeItem("accessstoken")
+              )
+            }
           >
             Sign Out
           </button>

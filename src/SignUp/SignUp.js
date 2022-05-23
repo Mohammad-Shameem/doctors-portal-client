@@ -6,6 +6,7 @@ import {
 import { useUpdateProfile } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import useToken from "../Hooks/useToken";
 import auth from "../firebase.init";
 import Loading from "../Loading/Loading";
 
@@ -15,6 +16,7 @@ const SignUp = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [token] = useToken(user || gUser);
   let authenticaitonError;
   const [userName, setUserName] = useState(" ");
 
@@ -34,8 +36,8 @@ const SignUp = () => {
 
     reset();
   };
-  if (user || gUser) {
-    // navigate("/appointment");
+  if (token) {
+    navigate("/appointment");
   }
   if (loading || gLoading) {
     return <Loading></Loading>;

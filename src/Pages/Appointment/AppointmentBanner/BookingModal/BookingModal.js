@@ -7,7 +7,7 @@ import auth from "../../../../firebase.init";
 const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
   const [user] = useAuthState(auth);
   // console.log(treatment.name)
-  const { name, slots, _id } = treatment;
+  const { name, slots, _id, price } = treatment;
   const handleBooking = (event) => {
     event.preventDefault();
     const number = event.target.number.value;
@@ -21,8 +21,9 @@ const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
       patientEmail: user.email,
       patientName: user.displayName,
       phone: number,
+      price,
     };
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://secret-island-49254.herokuapp.com/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",
